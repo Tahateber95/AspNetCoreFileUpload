@@ -33,8 +33,6 @@ namespace AspNetCoreFileUpload.Controllers
 
         public IActionResult MultipleFiles(IEnumerable<IFormFile> files)
         {
-            int i = 0;
-
             foreach (var file in files)
             {
                 using (var fileStream = new FileStream(Path.Combine(_dir, file.FileName), FileMode.Create, FileAccess.Write))

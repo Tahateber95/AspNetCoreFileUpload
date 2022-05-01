@@ -12,3 +12,15 @@
 
 
 </div>
+ <br />
+
+<div>
+ <h4>Multiple File upload</h4>
+
+ <form asp-controller="Home" asp-action="MultipleFiles" enctype="multipart/form-data" method="post">
+     <input type="file" multiple name="files" />
+     <button type="submit" >Upload</button>
+ </form>
+
+
+</div>
