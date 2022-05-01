@@ -6,11 +6,13 @@ namespace AspNetCoreFileUpload.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment _env;
+        private readonly string _dir;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IWebHostEnvironment env)
         {
-            _logger = logger;
+           _env = env;
+            _dir = _env.ContentRootPath;
         }
 
         public IActionResult Index()
@@ -20,13 +22,32 @@ namespace AspNetCoreFileUpload.Controllers
 
         public IActionResult SingleFile(IFormFile file)
         {
+            using (var fileStream = new FileStream(Path.Combine(_dir,file.FileName),FileMode.Create,FileAccess.Write))
+            {
+                file.CopyTo(fileStream);
+            }
+
             return RedirectToAction("Index");
         }
 
-        public IActionResult Privacy()
+
+        public IActionResult SingleFile(IEnumerable<IFormFile> files)
         {
-            return View();
+            int i = 0;
+
+            foreach (var file in files)
+            {
+                using (var fileStream = new FileStream(Path.Combine(_dir, file.FileName), FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+           
+
+            return RedirectToAction("Index");
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
