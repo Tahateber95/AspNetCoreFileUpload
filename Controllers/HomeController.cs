@@ -31,7 +31,7 @@ namespace AspNetCoreFileUpload.Controllers
         }
 
 
-        public IActionResult SingleFile(IEnumerable<IFormFile> files)
+        public IActionResult MultipleFiles(IEnumerable<IFormFile> files)
         {
             int i = 0;
 
